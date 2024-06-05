@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -14,7 +15,9 @@ import java.time.LocalDate;
 @Getter
 @Table(name = "users")
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String loginId;
@@ -36,4 +39,31 @@ public class User {
     private int coin;
 
     private int latestStage;
+
+    public User() {
+    }
+
+
+    /**
+     * 테스트용 생성자
+     */
+    public User(String nickname) {
+        this.nickname = nickname;
+    }
+
+
+    public User(Long id, String loginId, String loginPassword, String name, String nickname, Language prefferedLanguage, LocalDate birth, String email, String phoneNumber) {
+        this.id = id;
+        this.loginId = loginId;
+        this.loginPassword = loginPassword;
+        this.name = name;
+        this.nickname = nickname;
+        this.prefferedLanguage = prefferedLanguage;
+        this.birth = birth;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    // 회원정보수정 Form으로 넘어가면 장땡?
+
 }

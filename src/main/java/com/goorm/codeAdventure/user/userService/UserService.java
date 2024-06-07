@@ -1,6 +1,7 @@
 package com.goorm.codeAdventure.user.userService;
 
 import com.goorm.codeAdventure.user.domain.User;
+import com.goorm.codeAdventure.user.dto.request.UserForm;
 import com.goorm.codeAdventure.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,23 @@ public class UserService {
         return user.getId();
     }
 
+    public void login(UserForm userForm) {
+
+        // userForm을 가지고 입력을 받은 내용을 다시 Entity인 User객체에 생성자로 정보를 담는다.
+        User user = new User(
+                userForm.getLoginId(),
+                userForm.getLoginPassword(),
+                userForm.getName(),
+                userForm.getNickname(),
+                userForm.getPrefferedLanguage(),
+                userForm.getBirth(),
+                userForm.getEmail(),
+                userForm.getPhoneNumber()
+        );
+
+        join(user);
+    }
+
     // 같은 별명의 회원 검증
     private void validateDuplicateUser(User user) {
         List<User> findUsers = userRepository.findByName(user.getNickname());
@@ -44,4 +62,11 @@ public class UserService {
         return userRepository.findOne(userId);
     }
 
+    /**
+     * 회원 정보 업데이트
+     */
+    public void updateUser(Long userId, UserForm updateUserForm) {
+        User findUser = findOne(userId);
+        findUser.updateUser(updateUserForm);
+    }
 }

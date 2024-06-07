@@ -1,6 +1,7 @@
-package com.goorm.codeAdventure.user.controller;
+package com.goorm.codeAdventure.user.dto.request;
 
 import com.goorm.codeAdventure.game.domain.Language;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,12 +29,9 @@ public class UserForm {
     private LocalDate birth;
 
     @NotEmpty(message = "이메일은 필수 입니다.")
+    @Email
     private String email;
 
     private String phoneNumber;
-
-    private int coin;
-
-    private int latestStage;
 
 }

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -32,6 +33,7 @@ public class User {
 
     private String phoneNumber;
 
+    @Setter
     private Integer coin;
 
     private Integer latestStage;

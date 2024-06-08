@@ -17,7 +17,7 @@ public class Item {
 
     private String name;
 
-    private int price;
+    private Integer price;
 
-    private int stockQuantity;
+    private Integer stockQuantity;
 }

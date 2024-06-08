@@ -1,4 +1,4 @@
-package com.goorm.codeAdventure.game.domain;
+package com.goorm.codeAdventure.domain.game.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,6 +1,6 @@
-package com.goorm.codeAdventure.user.domain;
+package com.goorm.codeAdventure.domain.user.entity;
 
-import com.goorm.codeAdventure.game.domain.Language;
+import com.goorm.codeAdventure.domain.game.entity.Language;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +16,6 @@ import java.time.LocalDate;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String loginId;
 
     private String loginPassword;

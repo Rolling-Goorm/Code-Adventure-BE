@@ -1,23 +1,25 @@
-package com.goorm.codeAdventure.item.domain;
+package com.goorm.codeAdventure.domain.game.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
+import java.util.List;
+
 @Entity
 @Getter
-@Table(name = "items")
-public class Item {
+@Table(name = "games")
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private Language language;
 
-    private int price;
-
-    private int stockQuantity;
+    @OneToMany(mappedBy = "game")
+    private List<Part> parts;
 }

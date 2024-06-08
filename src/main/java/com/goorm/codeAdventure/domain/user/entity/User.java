@@ -32,7 +32,7 @@ public class User {
 
     private String phoneNumber;
 
-    private int coin;
+    private Integer coin;
 
-    private int latestStage;
+    private Integer latestStage;
 }

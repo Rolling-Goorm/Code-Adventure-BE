@@ -1,5 +1,6 @@
 package com.goorm.codeAdventure.user.domain;
 
+import com.goorm.codeAdventure.game.domain.Progress;
 import com.goorm.codeAdventure.problem.domain.Attempt;
 import com.goorm.codeAdventure.problem.domain.ProgrammingLanguage;
 import jakarta.persistence.Entity;
@@ -44,4 +45,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Attempt> attempts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Progress> progresses = new ArrayList<>();
 }

@@ -1,18 +1,16 @@
 package com.goorm.codeAdventure.user.repository;
 
 /*
-    UserRepository는 민섭님의 코드를 가져왔습니다.
+    UserRepository는 민섭님의 코드를 가져와서, 조금 수정했습니다.
 */
 import com.goorm.codeAdventure.user.domain.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class UserRepository {
 
     @PersistenceContext
@@ -23,6 +21,7 @@ public class UserRepository {
     }
 
     // 회원 id로 조회
+    // [수정] 회원 id로 조회 -> 회원id와 회원pw로 조회
     public User findOne(String Loginid, String loginPassword) {
         return em.find(User.class, Loginid);
     }

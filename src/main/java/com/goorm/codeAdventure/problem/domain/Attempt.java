@@ -25,6 +25,8 @@ public class Attempt {
 
     private LocalDateTime submitTime;
 
+    private Integer remainingAttemptCount;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

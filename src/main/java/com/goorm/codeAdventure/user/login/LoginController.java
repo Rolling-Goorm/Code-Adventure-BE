@@ -2,6 +2,7 @@ package com.goorm.codeAdventure.user.login;
 
 
 import com.goorm.codeAdventure.user.domain.User;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,12 @@ public class LoginController {
         if (user != null)
         {
             String welcomeMessage = user.getName() + "님, code adventure에 오신 것을 환영합니다.";
+
+            // 쿠키 설정
+            Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));
+            idCookie.setHttpOnly(true);
+            idCookie.setPath("/");
+            response.addCookie(idCookie);
 
             return ResponseEntity.ok(welcomeMessage);
         }

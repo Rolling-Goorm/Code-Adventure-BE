@@ -22,10 +22,14 @@ public class UserRepository {
 
     // 회원 id로 조회
     // [수정] 회원 id로 조회 -> 회원id와 회원pw로 조회
-    public User findOne(String Loginid, String loginPassword) {
-        return em.find(User.class, Loginid);
+    // [수정2] JPQL 사용하여 사용자ID와 비밀번호를 동시에 검증하도록 수정
+    public User findOne(String loginId, String loginPassword) {
+        List<User> users = em.createQuery("select u from User u where u.loginId = :loginId and u.loginPassword = :loginPassword", User.class)
+                .setParameter("loginId", loginId)
+                .setParameter("loginPassword", loginPassword)
+                .getResultList();
+        return users.isEmpty() ? null : users.get(0);
     }
-
     public List<User> findAll() {
         return em.createQuery("select m from User m", User.class)
                 .getResultList();

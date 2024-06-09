@@ -7,9 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +31,9 @@ public class Stage {
 
     @OneToOne(mappedBy = "stage")
     private Problem problem;
+
+    @OneToMany(mappedBy = "stage")
+    private List<Progress> progresses = new ArrayList<>();
 
     /**
      * 연관관계 설정 관련 메서드

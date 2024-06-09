@@ -12,7 +12,7 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "supported_languages")
-public class SupportedLanguages {
+public class SupportedLanguage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

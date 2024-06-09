@@ -22,8 +22,8 @@ public class LoginService {
         return user.getId(); //사용자 ID 반환
     }
 
-    public User login(String loginId, String password) {
-        User user = userRepository.findOne(loginId, password);
+    public User login(String loginId, String loginPassword) {
+        User user = userRepository.findOne(loginId, loginPassword);
         if (user == null) {
             throw new IllegalArgumentException("Invalid login credentials");
         }

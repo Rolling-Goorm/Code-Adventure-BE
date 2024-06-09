@@ -30,8 +30,8 @@ public class LoginController {
 
     //사용자 로그인 엔드포인트
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginForm userForm) {
-        User user = loginService.login(userForm.getLoginId(), userForm.getLoginPassword());
+    public ResponseEntity<String> login(@Valid @RequestBody LoginForm loginForm) {
+        User user = loginService.login(loginForm.getLoginId(), loginForm.getLoginPassword());
         return ResponseEntity.ok("Welcome " + user.getName());
     }
 }

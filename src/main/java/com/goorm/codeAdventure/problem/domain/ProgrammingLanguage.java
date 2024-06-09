@@ -25,5 +25,5 @@ public class ProgrammingLanguage {
     private String imageUrl;
 
     @OneToMany(mappedBy = "programmingLanguage")
-    private Set<SupportedLanguages> supportedLanguages = new HashSet<>();
+    private Set<SupportedLanguage> supportedLanguages = new HashSet<>();
 }

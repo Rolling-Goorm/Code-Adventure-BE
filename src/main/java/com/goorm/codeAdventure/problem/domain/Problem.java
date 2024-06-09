@@ -45,7 +45,7 @@ public class Problem {
     private List<IoExample> ioExamples;
 
     @OneToMany(mappedBy = "problem")
-    private Set<SupportedLanguages> supportedLanguages = new HashSet<>();
+    private Set<SupportedLanguage> supportedLanguages = new HashSet<>();
 
     @OneToMany(mappedBy = "problem")
     private List<Attempt> attempts = new ArrayList<>();

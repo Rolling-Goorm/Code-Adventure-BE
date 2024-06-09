@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class LoginController {
 
-    private final UserService userService;
+    private final LoginService loginService;
 
     //사용자 등록 엔드포인트
     @PostMapping("/register")
@@ -24,14 +24,14 @@ public class LoginController {
         user.setLoginId(loginForm.getLoginId());
         user.setLoginPassword(loginForm.getLoginPassword());
 
-        userService.join(user);
+        loginService.join(user);
         return ResponseEntity.ok().build();
     }
 
     //사용자 로그인 엔드포인트
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginForm userForm) {
-        User user = userService.login(userForm.getLoginId(), userForm.getLoginPassword());
+        User user = loginService.login(userForm.getLoginId(), userForm.getLoginPassword());
         return ResponseEntity.ok("Welcome " + user.getName());
     }
 }

@@ -1,5 +1,6 @@
 package com.goorm.codeAdventure.user.domain;
 
+import com.goorm.codeAdventure.user.dto.request.UserForm;
 import com.goorm.codeAdventure.game.domain.Progress;
 import com.goorm.codeAdventure.problem.domain.Attempt;
 import com.goorm.codeAdventure.problem.domain.ProgrammingLanguage;
@@ -37,11 +38,33 @@ public class User {
 
     private LocalDate birth;
 
-    private String email;
+    private String email; // email을 pk
 
     private String phoneNumber;
 
     private int coin;
+
+    public User(String loginId, String loginPassword, String name, String nickname, Language prefferedLanguage, LocalDate birth, String email, String phoneNumber) {
+        this.loginId = loginId;
+        this.loginPassword = loginPassword;
+        this.name = name;
+        this.nickname = nickname;
+        this.prefferedLanguage = prefferedLanguage;
+        this.birth = birth;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void updateUser(UserForm updateUser) {
+        this.loginId = updateUser.getLoginId();
+        this.loginPassword = updateUser.getLoginPassword();
+        this.name = updateUser.getName();
+        this.nickname = updateUser.getNickname();
+        this.prefferedLanguage = updateUser.getPrefferedLanguage();
+        this.birth = updateUser.getBirth();
+        this.email = updateUser.getEmail();
+        this.phoneNumber = updateUser.getPhoneNumber();
+    }
 
     @OneToMany(mappedBy = "user")
     private List<Attempt> attempts = new ArrayList<>();

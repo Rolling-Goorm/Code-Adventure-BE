@@ -1,4 +1,4 @@
-package com.goorm.codeAdventure.domain.user.repository;
+package com.goorm.codeAdventure.user.repository;
 
 import com.goorm.codeAdventure.domain.user.entity.User;
 

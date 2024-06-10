@@ -1,4 +1,4 @@
-package com.goorm.codeAdventure.domain.user.entity;
+package com.goorm.codeAdventure.user.entity;
 
 import com.goorm.codeAdventure.domain.game.entity.Language;
 import jakarta.persistence.Entity;

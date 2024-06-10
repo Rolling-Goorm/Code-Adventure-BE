@@ -1,10 +1,10 @@
-package com.goorm.codeAdventure.domain.item.controller;
+package com.goorm.codeAdventure.item.controller;
 
-import com.goorm.codeAdventure.domain.item.dto.ItemDetailResponse;
-import com.goorm.codeAdventure.domain.item.dto.ItemListResponse;
-import com.goorm.codeAdventure.domain.item.dto.ItemPurchaseRequest;
-import com.goorm.codeAdventure.domain.item.dto.ItemPurchaseResponse;
-import com.goorm.codeAdventure.domain.item.service.ItemService;
+import com.goorm.codeAdventure.item.dto.ItemDetailResponse;
+import com.goorm.codeAdventure.item.dto.ItemListResponse;
+import com.goorm.codeAdventure.item.dto.ItemPurchaseRequest;
+import com.goorm.codeAdventure.item.dto.ItemPurchaseResponse;
+import com.goorm.codeAdventure.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

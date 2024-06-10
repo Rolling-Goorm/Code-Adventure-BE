@@ -1,4 +1,4 @@
-package com.goorm.codeAdventure.domain.item.dto;
+package com.goorm.codeAdventure.item.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

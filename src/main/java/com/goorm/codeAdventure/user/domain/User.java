@@ -1,5 +1,6 @@
 package com.goorm.codeAdventure.user.domain;
 
+
 import com.goorm.codeAdventure.user.dto.request.UserForm;
 import com.goorm.codeAdventure.game.domain.Progress;
 import com.goorm.codeAdventure.problem.domain.Attempt;
@@ -12,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,7 +26,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String loginId;
 
     private String loginPassword;
@@ -42,7 +43,8 @@ public class User {
 
     private String phoneNumber;
 
-    private int coin;
+    @Setter
+    private Integer coin;
 
     public User(String loginId, String loginPassword, String name, String nickname, Language prefferedLanguage, LocalDate birth, String email, String phoneNumber) {
         this.loginId = loginId;

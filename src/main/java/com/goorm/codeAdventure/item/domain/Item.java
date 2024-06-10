@@ -1,10 +1,6 @@
 package com.goorm.codeAdventure.item.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
@@ -17,7 +13,21 @@ public class Item {
 
     private String name;
 
-    private int price;
+    private Integer price;
 
-    private int stockQuantity;
+    private Integer stockQuantity;
+    public boolean isBuyAble()
+    {
+        return stockQuantity>=1;
+    }
+    public boolean isnonremain(Integer request)
+    {
+        return stockQuantity-request<0;
+    }
+
+    public Integer minusStock(Integer request)
+    {
+        stockQuantity-=request;//남은 재고
+        return request*price;
+    }
 }

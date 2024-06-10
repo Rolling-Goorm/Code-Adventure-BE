@@ -8,18 +8,21 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Table(name = "games")
-public class Game {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Language language;
+    private String name;
 
-    @OneToMany(mappedBy = "game")
-    private List<Part> parts;
+    @OneToMany(mappedBy = "category")
+    private List<Stage> stages = new ArrayList<>();
+
+    // getters and setters
 }

@@ -42,14 +42,24 @@ public class LoginController {
 
             // 쿠키 설정
             Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));
-            idCookie.setHttpOnly(true);
-            idCookie.setPath("/");
             response.addCookie(idCookie);
+
 
             return ResponseEntity.ok(welcomeMessage);
         }
         else //로그인 실패 시 UNAUTHORIZED(401) 상태 코드 반환
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.");
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        expireCookie(response, "memberId");
+        return "redirect:/";
+    }
+    private void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 
 }

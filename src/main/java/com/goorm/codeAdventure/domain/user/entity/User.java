@@ -1,10 +1,10 @@
 package com.goorm.codeAdventure.domain.user.entity;
 
 
+import com.goorm.codeAdventure.domain.game.entity.Progress;
 import com.goorm.codeAdventure.domain.problem.entity.Attempt;
 import com.goorm.codeAdventure.domain.problem.entity.ProgrammingLanguage;
 import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
-import com.goorm.codeAdventure.domain.game.entity.Progress;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -35,9 +37,6 @@ public class User {
 
     private String nickname;
 
-    @OneToOne
-    private ProgrammingLanguage preferredLanguage;
-
     private LocalDate birth;
 
     private String email; // email을 pk
@@ -47,12 +46,15 @@ public class User {
     @Setter
     private Integer coin;
 
-    public User(String loginId, String loginPassword, String name, String nickname, Language prefferedLanguage, LocalDate birth, String email, String phoneNumber) {
+    @OneToOne
+    private ProgrammingLanguage preferredLanguage;
+
+    public User(String loginId, String loginPassword, String name, String nickname, ProgrammingLanguage preferredLanguage, LocalDate birth, String email, String phoneNumber) {
         this.loginId = loginId;
         this.loginPassword = loginPassword;
         this.name = name;
         this.nickname = nickname;
-        this.prefferedLanguage = prefferedLanguage;
+        this.preferredLanguage = preferredLanguage;
         this.birth = birth;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -63,7 +65,7 @@ public class User {
         this.loginPassword = updateUser.getLoginPassword();
         this.name = updateUser.getName();
         this.nickname = updateUser.getNickname();
-        this.prefferedLanguage = updateUser.getPrefferedLanguage();
+        this.preferredLanguage = updateUser.getPreferredLanguage();
         this.birth = updateUser.getBirth();
         this.email = updateUser.getEmail();
         this.phoneNumber = updateUser.getPhoneNumber();

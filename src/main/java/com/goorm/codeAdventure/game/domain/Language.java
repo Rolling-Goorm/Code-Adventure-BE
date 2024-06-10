@@ -1,4 +1,4 @@
-package com.goorm.codeAdventure.game.entity;
+package com.goorm.codeAdventure.game.domain;
 
 import lombok.Getter;
 

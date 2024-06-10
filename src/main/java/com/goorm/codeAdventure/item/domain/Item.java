@@ -1,4 +1,4 @@
-package com.goorm.codeAdventure.item.entity;
+package com.goorm.codeAdventure.item.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

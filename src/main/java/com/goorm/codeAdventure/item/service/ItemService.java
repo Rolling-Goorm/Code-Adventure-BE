@@ -6,7 +6,7 @@ import com.goorm.codeAdventure.item.dto.ItemDetailResponse;
 import com.goorm.codeAdventure.item.dto.ItemListResponse;
 import com.goorm.codeAdventure.item.dto.ItemPurchaseRequest;
 import com.goorm.codeAdventure.item.dto.ItemPurchaseResponse;
-import com.goorm.codeAdventure.item.entity.Item;
+import com.goorm.codeAdventure.item.domain.Item;
 import com.goorm.codeAdventure.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

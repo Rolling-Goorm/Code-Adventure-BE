@@ -18,7 +18,7 @@ public class UserRepository {
     }
 
     // 회원 id로 조회
-    public User findOne(Long id) {
+    public User findById(Long id) {
         return em.find(User.class, id);
     }
 

@@ -33,7 +33,7 @@ public class UserService {
                 userForm.getLoginPassword(),
                 userForm.getName(),
                 userForm.getNickname(),
-                userForm.getPrefferedLanguage(),
+                userForm.getPreferredLanguage(),
                 userForm.getBirth(),
                 userForm.getEmail(),
                 userForm.getPhoneNumber()

@@ -1,6 +1,6 @@
 package com.goorm.codeAdventure.domain.user.dto.request;
 
-import com.goorm.codeAdventure.game.domain.Language;
+import com.goorm.codeAdventure.domain.problem.entity.ProgrammingLanguage;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class UserForm {
     @NotEmpty(message = "별명은 필수 입니다.")
     private String nickname;
 
-    private Language prefferedLanguage;
+    private ProgrammingLanguage preferredLanguage;
 
     private LocalDate birth;
 

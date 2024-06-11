@@ -2,11 +2,14 @@ package com.goorm.codeAdventure.domain.user.service;
 
 import com.goorm.codeAdventure.domain.user.dto.request.LoginForm;
 import com.goorm.codeAdventure.domain.user.dto.response.UserResponse;
+import com.goorm.codeAdventure.domain.user.entity.SessionConst;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
 import com.goorm.codeAdventure.domain.user.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,12 +63,15 @@ public class UserService {
      * 전체 회원 조회
      */
     public List<User> findUsers() {
+
         return userRepository.findAll();
     }
 
     public User findOne(Long userId) {
+
         return userRepository.findById(userId);
     }
+
 
     public UserResponse findUser(Long userId) {
         return new UserResponse(findById(userId));
@@ -85,7 +91,7 @@ public class UserService {
      * @param response
      * @return 로그인 성공 | 실패
      */
-    public ResponseEntity<String> login(LoginForm loginForm, HttpServletResponse response) {
+    public ResponseEntity<String> login(LoginForm loginForm, HttpServletResponse response, HttpServletRequest request) {
         User user = login(loginForm.getLoginId(), loginForm.getLoginPassword());
 
         if (user != null)
@@ -93,10 +99,17 @@ public class UserService {
             // 별명으로 회원가입 검증을 하기도해서 이름대신 닉네임으로 하는게 어떨까요?
             String welcomeMessage = user.getNickname() + "님, code adventure에 오신 것을 환영합니다.";
 
-            // 쿠키 설정
-            Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));
-            response.addCookie(idCookie);
+            /*
+                쿠키 설정 - [삭제]-> 세션 생성하면 쿠키는 따로 생성할 필요 없음.
+                Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));
+                response.addCookie(idCookie);
+            */
 
+            //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+            HttpSession session = request.getSession();
+
+            //세션에 로그인 회원 정보 보관
+            session.setAttribute(SessionConst.LOGIN_USER, user);
 
             return ResponseEntity.ok(welcomeMessage);
         }
@@ -112,10 +125,10 @@ public class UserService {
         return user;
     }
 
-    public void expireCookie(HttpServletResponse response, String cookieName) {
-        Cookie cookie = new Cookie(cookieName, null);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-    }
+//    public void expireCookie(HttpServletResponse response, String cookieName) {
+//        Cookie cookie = new Cookie(cookieName, null);
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//    }
 
 }

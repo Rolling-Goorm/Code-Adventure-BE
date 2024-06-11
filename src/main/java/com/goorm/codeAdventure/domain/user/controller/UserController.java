@@ -4,7 +4,9 @@ import com.goorm.codeAdventure.domain.user.dto.request.LoginForm;
 import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
 import com.goorm.codeAdventure.domain.user.dto.response.UserResponse;
 import com.goorm.codeAdventure.domain.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -58,13 +60,20 @@ public class UserController {
      * @param response
      */
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginForm loginForm, HttpServletResponse response) {
-        return userService.login(loginForm, response);
+    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginForm loginForm, HttpServletResponse response, HttpServletRequest request) {
+        return userService.login(loginForm, response, request);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletResponse response) {
-        userService.expireCookie(response, "memberId");
+    public ResponseEntity<String> logout(HttpServletResponse response, HttpServletRequest request) {
+        //userService.expireCookie(response, "memberId");
+
+        //세션 무효화
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
         return ResponseEntity.noContent().build();
     }
 

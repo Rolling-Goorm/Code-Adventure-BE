@@ -68,7 +68,7 @@ public class UserService {
     }
 
     public UserResponse findUser(Long userId) {
-        return new UserResponse(findOne(userId));
+        return new UserResponse(findById(userId));
     }
 
     /**

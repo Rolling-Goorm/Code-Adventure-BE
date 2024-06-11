@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "users")
@@ -46,6 +45,9 @@ public class User {
     @Setter
     private Integer coin;
 
+    public User() {
+    }
+  
     @OneToOne
     private ProgrammingLanguage preferredLanguage;
 
@@ -54,10 +56,11 @@ public class User {
         this.loginPassword = loginPassword;
         this.name = name;
         this.nickname = nickname;
-        this.preferredLanguage = preferredLanguage;
+        this.preferredLanguage = null; // preferredLanguage 객체를 제대로 주입하지 않아 생기는 에러로 인한 주석 처리
         this.birth = birth;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.coin = 0;
     }
 
     public void updateUser(UserForm updateUser) {
@@ -65,7 +68,7 @@ public class User {
         this.loginPassword = updateUser.getLoginPassword();
         this.name = updateUser.getName();
         this.nickname = updateUser.getNickname();
-        this.preferredLanguage = updateUser.getPreferredLanguage();
+        this.preferredLanguage = null; // preferredLanguage 객체를 제대로 주입하지 않아 생기는 에러로 인한 주석 처리
         this.birth = updateUser.getBirth();
         this.email = updateUser.getEmail();
         this.phoneNumber = updateUser.getPhoneNumber();

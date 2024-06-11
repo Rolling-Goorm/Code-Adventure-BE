@@ -74,7 +74,10 @@ public class UserService {
 
 
     public UserResponse findUser(Long userId) {
-        return new UserResponse(findById(userId));
+        return new UserResponse(userRepository.findById(userId));
+        //여기서 findById가 오류나서 봤더니
+        //userRepository.findById(userId)로 수정해야 할 것 같아 수정했습니다.
+        //맞..죠?
     }
 
     /**

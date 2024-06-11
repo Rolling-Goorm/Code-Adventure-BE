@@ -1,6 +1,6 @@
 package com.goorm.codeAdventure.domain.user.dto.request;
 
-import com.goorm.codeAdventure.domain.problem.entity.ProgrammingLanguage;
+import com.goorm.codeAdventure.domain.game.entity.ProgrammingLanguage;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

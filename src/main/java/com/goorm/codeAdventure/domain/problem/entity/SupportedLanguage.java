@@ -1,5 +1,6 @@
 package com.goorm.codeAdventure.domain.problem.entity;
 
+import com.goorm.codeAdventure.domain.game.entity.ProgrammingLanguage;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

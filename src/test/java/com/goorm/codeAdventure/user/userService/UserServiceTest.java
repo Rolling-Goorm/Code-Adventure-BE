@@ -1,6 +1,6 @@
 package com.goorm.codeAdventure.user.userService;
 
-import com.goorm.codeAdventure.domain.problem.entity.ProgrammingLanguage;
+import com.goorm.codeAdventure.domain.game.entity.ProgrammingLanguage;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import com.goorm.codeAdventure.domain.user.repository.UserRepository;
 import com.goorm.codeAdventure.domain.user.service.UserService;

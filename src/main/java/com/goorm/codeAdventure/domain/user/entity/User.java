@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
 @Table(name = "users")
 public class User {
@@ -47,15 +46,19 @@ public class User {
     @Setter
     private Integer coin;
 
-    public User(String loginId, String loginPassword, String name, String nickname, Language prefferedLanguage, LocalDate birth, String email, String phoneNumber) {
+    public User() {
+    }
+
+    public User(String loginId, String loginPassword, String name, String nickname, ProgrammingLanguage preferredLanguage, LocalDate birth, String email, String phoneNumber) {
         this.loginId = loginId;
         this.loginPassword = loginPassword;
         this.name = name;
         this.nickname = nickname;
-        this.prefferedLanguage = prefferedLanguage;
+        this.preferredLanguage = preferredLanguage;
         this.birth = birth;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.coin = 0;
     }
 
     public void updateUser(UserForm updateUser) {
@@ -63,7 +66,7 @@ public class User {
         this.loginPassword = updateUser.getLoginPassword();
         this.name = updateUser.getName();
         this.nickname = updateUser.getNickname();
-        this.prefferedLanguage = updateUser.getPrefferedLanguage();
+        this.preferredLanguage = updateUser.getPreferredLanguage();
         this.birth = updateUser.getBirth();
         this.email = updateUser.getEmail();
         this.phoneNumber = updateUser.getPhoneNumber();

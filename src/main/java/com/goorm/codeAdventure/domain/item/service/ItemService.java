@@ -71,8 +71,8 @@ public class ItemService {
         {
             throw new RuntimeException("재고가 없습니다");
         }
-        User user = userRepository.findById(userId)
-                .orElseThrow(IllegalArgumentException::new);
+        User user = userRepository.findById(userId);
+//                .orElseThrow(IllegalArgumentException::new);
         //구매 로직
         Integer totalprice = item.minusStock(request.getQuantity());//남은 재고 저장 했음
         int usedCoin = user.getCoin() - totalprice;

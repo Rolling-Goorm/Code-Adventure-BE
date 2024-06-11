@@ -1,9 +1,15 @@
 package com.goorm.codeAdventure.domain.user.service;
 
+import com.goorm.codeAdventure.domain.user.dto.request.LoginForm;
+import com.goorm.codeAdventure.domain.user.dto.response.UserResponse;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
 import com.goorm.codeAdventure.domain.user.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,13 +25,7 @@ public class UserService {
     /**
      * 회원 가입
      */
-    public Long join(User user) {
-        validateDuplicateUser(user);
-        userRepository.save(user);
-        return user.getId();
-    }
-
-    public void login(UserForm userForm) {
+    public void join(UserForm userForm) {
 
         // userForm을 가지고 입력을 받은 내용을 다시 Entity인 User객체에 생성자로 정보를 담는다.
         User user = new User(
@@ -33,7 +33,7 @@ public class UserService {
                 userForm.getLoginPassword(),
                 userForm.getName(),
                 userForm.getNickname(),
-                userForm.getPrefferedLanguage(),
+                userForm.getPreferredLanguage(),
                 userForm.getBirth(),
                 userForm.getEmail(),
                 userForm.getPhoneNumber()
@@ -42,9 +42,14 @@ public class UserService {
         join(user);
     }
 
-    // 같은 별명의 회원 검증
+    public void join(User user) {
+        validateDuplicateUser(user);
+        userRepository.save(user);
+    }
+
+    // 같은 별명의 회원 검증 --> RuntimeException 으로 바꿔야함
     private void validateDuplicateUser(User user) {
-        List<User> findUsers = userRepository.findByName(user.getNickname());
+        List<User> findUsers = userRepository.findByNickName(user.getNickname());
 
         if (!findUsers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 이름입니다.");
@@ -59,7 +64,11 @@ public class UserService {
     }
 
     public User findOne(Long userId) {
-        return userRepository.findOne(userId);
+        return userRepository.findById(userId);
+    }
+
+    public UserResponse findUser(Long userId) {
+        return new UserResponse(findOne(userId));
     }
 
     /**
@@ -69,4 +78,44 @@ public class UserService {
         User findUser = findOne(userId);
         findUser.updateUser(updateUserForm);
     }
+
+    /**
+     * 회원 로그인
+     * @param loginForm
+     * @param response
+     * @return 로그인 성공 | 실패
+     */
+    public ResponseEntity<String> login(LoginForm loginForm, HttpServletResponse response) {
+        User user = login(loginForm.getLoginId(), loginForm.getLoginPassword());
+
+        if (user != null)
+        {
+            // 별명으로 회원가입 검증을 하기도해서 이름대신 닉네임으로 하는게 어떨까요?
+            String welcomeMessage = user.getNickname() + "님, code adventure에 오신 것을 환영합니다.";
+
+            // 쿠키 설정
+            Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));
+            response.addCookie(idCookie);
+
+
+            return ResponseEntity.ok(welcomeMessage);
+        }
+        else // 로그인 실패 시 UNAUTHORIZED(401) 상태 코드 반환 --> 상태가 500으로 출력됩니당...
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.");
+    }
+
+    public User login(String loginId, String loginPassword) {
+        User user = userRepository.validateUser(loginId, loginPassword);
+        if (user == null) {
+            throw new IllegalArgumentException("사용자 정보가 존재하지 않습니다.");
+        }
+        return user;
+    }
+
+    public void expireCookie(HttpServletResponse response, String cookieName) {
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
 }

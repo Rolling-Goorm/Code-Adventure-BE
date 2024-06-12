@@ -74,10 +74,7 @@ public class UserService {
 
 
     public UserResponse findUser(Long userId) {
-        return new UserResponse(userRepository.findById(userId));
-        //여기서 findById가 오류나서 봤더니
-        //userRepository.findById(userId)로 수정해야 할 것 같아 수정했습니다.
-        //맞..죠?
+        return new UserResponse(findOne(userId));
     }
 
     /**
@@ -94,19 +91,13 @@ public class UserService {
      * @param response
      * @return 로그인 성공 | 실패
      */
-    public ResponseEntity<String> login(LoginForm loginForm, HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<String> login(LoginForm loginForm, HttpServletRequest request, HttpServletResponse response) {
         User user = login(loginForm.getLoginId(), loginForm.getLoginPassword());
 
         if (user != null)
         {
             // 별명으로 회원가입 검증을 하기도해서 이름대신 닉네임으로 하는게 어떨까요?
             String welcomeMessage = user.getNickname() + "님, code adventure에 오신 것을 환영합니다.";
-
-            /*
-                쿠키 설정 - [삭제]-> 세션 생성하면 쿠키는 따로 생성할 필요 없음.
-                Cookie idCookie = new Cookie("userId", String.valueOf(user.getId()));
-                response.addCookie(idCookie);
-            */
 
             //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
             HttpSession session = request.getSession();
@@ -127,11 +118,5 @@ public class UserService {
         }
         return user;
     }
-
-//    public void expireCookie(HttpServletResponse response, String cookieName) {
-//        Cookie cookie = new Cookie(cookieName, null);
-//        cookie.setMaxAge(0);
-//        response.addCookie(cookie);
-//    }
 
 }

@@ -60,12 +60,12 @@ public class UserController {
      * @param response
      */
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginForm loginForm, HttpServletResponse response, HttpServletRequest request) {
-        return userService.login(loginForm, response, request);
+    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginForm loginForm, HttpServletRequest request, HttpServletResponse response) {
+        return userService.login(loginForm, request, response);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
         //userService.expireCookie(response, "memberId");
 
         //세션 무효화

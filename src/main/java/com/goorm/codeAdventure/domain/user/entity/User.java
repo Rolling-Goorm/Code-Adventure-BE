@@ -44,9 +44,6 @@ public class User {
 
     @Setter
     private Integer coin;
-
-    public User() {
-    }
   
     @OneToOne
     private ProgrammingLanguage preferredLanguage;

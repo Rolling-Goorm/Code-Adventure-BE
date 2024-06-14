@@ -1,6 +1,5 @@
 package com.goorm.codeAdventure.domain.user.dto.response;
 
-import com.goorm.codeAdventure.domain.problem.entity.ProgrammingLanguage;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class UserResponse {
 
     private String nickname;
 
-    private ProgrammingLanguage preferredLanguage;
+    private String preferredLanguage;
 
     private LocalDate birth;
 
@@ -32,7 +31,7 @@ public class UserResponse {
         this.loginPassword = findUser.getLoginPassword();
         this.name = findUser.getName();
         this.nickname = findUser.getNickname();
-        this.preferredLanguage = findUser.getPreferredLanguage();
+        this.preferredLanguage = findUser.getPreferredLanguage().getName();
         this.birth = findUser.getBirth();
         this.email = findUser.getEmail();
         this.phoneNumber = findUser.getPhoneNumber();

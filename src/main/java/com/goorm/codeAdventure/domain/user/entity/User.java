@@ -1,10 +1,13 @@
 package com.goorm.codeAdventure.domain.user.entity;
 
 
+import com.goorm.codeAdventure.domain.game.entity.ProgrammingLanguage;
 import com.goorm.codeAdventure.domain.game.entity.Progress;
 import com.goorm.codeAdventure.domain.problem.entity.Attempt;
 import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,6 +29,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String loginId;
 
     private String loginPassword;
@@ -43,7 +47,8 @@ public class User {
     @Setter
     private Integer coin;
 
-    private String preferredLanguage;
+    @Enumerated(EnumType.STRING)
+    private ProgrammingLanguage preferredLanguage;
 
     @OneToMany(mappedBy = "user")
     private List<Attempt> attempts = new ArrayList<>();
@@ -56,7 +61,7 @@ public class User {
         this.loginPassword = loginPassword;
         this.name = name;
         this.nickname = nickname;
-        this.preferredLanguage = preferredLanguage;
+        this.preferredLanguage = ProgrammingLanguage.findByName(preferredLanguage);
         this.birth = birth;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -68,7 +73,7 @@ public class User {
         this.loginPassword = updateUser.getLoginPassword();
         this.name = updateUser.getName();
         this.nickname = updateUser.getNickname();
-        this.preferredLanguage = updateUser.getPreferredLanguage();
+        this.preferredLanguage = ProgrammingLanguage.findByName(updateUser.getPreferredLanguage());
         this.birth = updateUser.getBirth();
         this.email = updateUser.getEmail();
         this.phoneNumber = updateUser.getPhoneNumber();

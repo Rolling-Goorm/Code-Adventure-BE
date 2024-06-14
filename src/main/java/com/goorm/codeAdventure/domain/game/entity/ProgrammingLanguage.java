@@ -25,6 +25,13 @@ public enum ProgrammingLanguage {
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 카테고리가 없습니다."));
     }
 
+    public static ProgrammingLanguage findByName(String name) {
+        return Arrays.stream(ProgrammingLanguage.values())
+                .filter(programmingLanguage -> programmingLanguage.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 카테고리가 없습니다."));
+    }
+
     public static List<ProgrammingLanguage> findAll() {
         return Arrays.asList(ProgrammingLanguage.values());
     }

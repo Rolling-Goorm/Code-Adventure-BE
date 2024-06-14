@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
 @NoArgsConstructor
 @Table(name = "users")
@@ -61,6 +60,7 @@ public class User {
         this.birth = birth;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.coin = 0;
     }
 
     public void updateUser(UserForm updateUser) {

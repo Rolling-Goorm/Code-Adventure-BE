@@ -4,9 +4,10 @@ import com.goorm.codeAdventure.domain.problem.entity.Problem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class IoExampleResponse {
     private Long id;
@@ -15,11 +16,13 @@ public class IoExampleResponse {
 
     private String output;
 
-    public IoExampleResponse(Problem.IoExample ioExample) {
-        IoExampleResponse.builder()
-                .id(ioExample.getId())
-                .input(ioExample.getInput())
-                .output(ioExample.getOutput())
-                .build();
+    public static IoExampleResponse of(Problem.IoExample ioExample) {
+        IoExampleResponse response = new IoExampleResponse();
+
+        response.id = ioExample.getId();
+        response.input = ioExample.getInput();
+        response.output = ioExample.getOutput();
+
+        return response;
     }
 }

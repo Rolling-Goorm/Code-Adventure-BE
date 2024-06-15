@@ -69,13 +69,11 @@ public class InitDb {
                     Category.IO,
                     "Easy"
             );
-
             Stage stage2 = new Stage(
                     ProgrammingLanguage.JAVA,
                     Category.IO,
                     "Easy"
             );
-
             em.persist(stage1);
             em.persist(stage2);
 
@@ -86,22 +84,20 @@ public class InitDb {
                     "Hello World!를 출력하시오.",
                     stage1
             );
+            Problem problem2 = new Problem(
+                    "A+B",
+                    "두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.",
+                    "첫째 줄에 A와 B가 주어진다. (0 < A, B < 10)",
+                    "첫째 줄에 A+B를 출력한다.",
+                    stage2
+            );
             em.persist(problem1);
+            em.persist(problem2);
 
             Problem.IoExample ioExample1 = new Problem.IoExample(problem1, "", "Hello World!");
+            Problem.IoExample ioExample2 = new Problem.IoExample(problem2, "1 2", "3");
             em.persist(ioExample1);
-
-//            Problem problem2 = new Problem(
-//                    "A+B",
-//                    "두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.",
-//                    "첫째 줄에 A와 B가 주어진다. (0 < A, B < 10)",
-//                    "첫째 줄에 A+B를 출력한다.",
-//                    stage1
-//            );
-//            em.persist(problem2);
-//
-//            Problem.IoExample ioExample2 = new Problem.IoExample(problem2, "1 2", "3");
-//            em.persist(ioExample2);
+            em.persist(ioExample2);
 
             em.flush();
         }

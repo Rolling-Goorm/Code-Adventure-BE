@@ -37,11 +37,12 @@ public class DynamicJavaCompiler {
         // 4. 소스 코드 컴파일
         boolean success = task.call(); // 컴파일러 시작
         if (!success) {
-            // 컴파일 실패 시 진단 메시지 출력 --> 유저에게 바로 보여줄 수 있는지
+            // 컴파일 실패 시 진단 메시지 생성
+            StringBuilder errorMessage = new StringBuilder("Compilation failed: ");
             for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
-                System.out.println(diagnostic.getMessage(null));
+                errorMessage.append(diagnostic.getMessage(null)).append("\n");
             }
-            throw new RuntimeException("Compilation failed.");
+            throw new RuntimeException(errorMessage.toString());
         }
 
         // 5. 컴파일된 클래스를 로드

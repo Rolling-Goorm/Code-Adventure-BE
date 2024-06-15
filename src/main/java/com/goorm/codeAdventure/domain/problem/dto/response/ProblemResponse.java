@@ -4,11 +4,12 @@ import com.goorm.codeAdventure.domain.problem.entity.Problem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProblemResponse {
     private Long id;
@@ -23,19 +24,19 @@ public class ProblemResponse {
 
     private List<IoExampleResponse> ioExamples;
 
-    public ProblemResponse(Problem problem) {
-        ProblemResponse.builder()
-                .id(problem.getId())
-                .title(problem.getTitle())
-                .problemDescription(problem.getProblemDescription())
-                .inputDescription(problem.getInputDescription())
-                .outputDescription(problem.getOutputDescription())
-                .ioExamples(
-                        problem.getIoExamples()
-                                .stream()
-                                .map(IoExampleResponse::new)
-                                .toList()
-                )
-                .build();
+    public static ProblemResponse of(Problem problem) {
+        ProblemResponse response = new ProblemResponse();
+
+        response.id = problem.getId();
+        response.title = problem.getTitle();
+        response.problemDescription = problem.getProblemDescription();
+        response.inputDescription = problem.getInputDescription();
+        response.outputDescription = problem.getOutputDescription();
+        response.ioExamples = problem.getIoExamples()
+                .stream()
+                .map(IoExampleResponse::of)
+                .toList();
+
+        return response;
     }
 }

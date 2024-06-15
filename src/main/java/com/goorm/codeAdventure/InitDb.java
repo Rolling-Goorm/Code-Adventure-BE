@@ -40,7 +40,7 @@ public class InitDb {
                     "admin",
                     "name1",
                     "nickname1",
-                    "javascript",
+                    "JAVASCRIPT",
                     LocalDate.now(),
                     "email1",
                     "phoneNumber1"
@@ -51,7 +51,7 @@ public class InitDb {
                     "admin2",
                     "name2",
                     "nickname2",
-                    "java",
+                    "JAVA",
                     LocalDate.now(),
                     "email2",
                     "phoneNumber2"

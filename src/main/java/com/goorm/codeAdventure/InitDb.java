@@ -4,6 +4,7 @@ package com.goorm.codeAdventure;
 import com.goorm.codeAdventure.domain.game.entity.Category;
 import com.goorm.codeAdventure.domain.game.entity.ProgrammingLanguage;
 import com.goorm.codeAdventure.domain.game.entity.Stage;
+import com.goorm.codeAdventure.domain.item.entity.Item;
 import com.goorm.codeAdventure.domain.problem.entity.Problem;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import jakarta.annotation.PostConstruct;
@@ -25,6 +26,7 @@ public class InitDb {
     public void init() {
         this.initService.createUsers();
         this.initService.createGame();
+        this.initService.createItems();
     }
 
     @Component
@@ -102,5 +104,22 @@ public class InitDb {
             em.flush();
         }
 
+        @Transactional
+        public void createItems() {
+            Item item1 = new Item(
+                    "황금올리브 치킨 + 콜라 1.25L",
+                    800,
+                    1
+            );
+            Item item2 = new Item(
+                    "시그니엘 프리미어 더블 시티뷰 숙박권",
+                    80000,
+                    10
+            );
+            em.persist(item1);
+            em.persist(item2);
+
+            em.flush();
+        }
     }
 }

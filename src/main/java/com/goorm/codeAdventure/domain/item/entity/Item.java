@@ -2,9 +2,11 @@ package com.goorm.codeAdventure.domain.item.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "items")
 public class Item {
     @Id
@@ -16,11 +18,18 @@ public class Item {
     private Integer price;
 
     private Integer stockQuantity;
+
+    public Item(String name, Integer price, Integer stockQuantity) {
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
     public boolean isBuyAble()
     {
         return stockQuantity>=1;
     }
-    public boolean isnonremain(Integer request)
+    public boolean isNonRemain(Integer request)
     {
         return stockQuantity-request<0;
     }

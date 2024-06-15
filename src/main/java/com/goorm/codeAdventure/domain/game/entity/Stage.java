@@ -2,21 +2,23 @@ package com.goorm.codeAdventure.domain.game.entity;
 
 import com.goorm.codeAdventure.domain.problem.entity.Problem;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "stages")
 public class Stage {
     @Id
@@ -25,8 +27,10 @@ public class Stage {
 
     private String level; // 예: Easy, Medium, Hard
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
+    @Enumerated(EnumType.STRING)
+    private ProgrammingLanguage programmingLanguage;
+
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @OneToOne(mappedBy = "stage")
@@ -35,11 +39,9 @@ public class Stage {
     @OneToMany(mappedBy = "stage")
     private List<Progress> progresses = new ArrayList<>();
 
-    /**
-     * 연관관계 설정 관련 메서드
-     */
-    public void setCategory(Category category) {
+    public Stage(ProgrammingLanguage programmingLanguage, Category category, String level) {
+        this.programmingLanguage = programmingLanguage;
         this.category = category;
-        category.getStages().add(this);
+        this.level = level;
     }
 }

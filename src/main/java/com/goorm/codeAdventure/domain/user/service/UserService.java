@@ -1,12 +1,11 @@
 package com.goorm.codeAdventure.domain.user.service;
 
 import com.goorm.codeAdventure.domain.user.dto.request.LoginForm;
+import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
 import com.goorm.codeAdventure.domain.user.dto.response.UserResponse;
 import com.goorm.codeAdventure.domain.user.entity.SessionConst;
 import com.goorm.codeAdventure.domain.user.entity.User;
-import com.goorm.codeAdventure.domain.user.dto.request.UserForm;
 import com.goorm.codeAdventure.domain.user.repository.UserRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

@@ -12,14 +12,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "problems")
 public class Problem {
     @Id
@@ -42,16 +42,28 @@ public class Problem {
     private Stage stage;
 
     @OneToMany(mappedBy = "problem")
-    private List<IoExample> ioExamples;
-
-    @OneToMany(mappedBy = "problem")
-    private Set<SupportedLanguage> supportedLanguages = new HashSet<>();
+    private List<IoExample> ioExamples = new ArrayList<>();
 
     @OneToMany(mappedBy = "problem")
     private List<Attempt> attempts = new ArrayList<>();
 
+    public Problem(
+            String title,
+            String problemDescription,
+            String inputDescription,
+            String outputDescription,
+            Stage stage
+    ) {
+        this.title = title;
+        this.problemDescription = problemDescription;
+        this.inputDescription = inputDescription;
+        this.outputDescription = outputDescription;
+        this.stage = stage;
+    }
+
     @Entity
     @Getter
+    @NoArgsConstructor
     @Table(name = "io_examples")
     public static class IoExample {
         @Id
@@ -65,6 +77,12 @@ public class Problem {
         @ManyToOne
         @JoinColumn(name = "problem_id")
         private Problem problem;
+
+        public IoExample(Problem problem, String input, String output) {
+            setProblem(problem);
+            this.input = input;
+            this.output = output;
+        }
 
         /**
          * 연관관계 설정 관련 메서드

@@ -67,7 +67,7 @@ public class ItemService {
         // = > 0개면 에러 보내주고 (상태코드 같은거? )
         // message가 완료 여부에 따라 들어가야함 .
         Item item = itemRepository.findById(itemId).orElseThrow(IllegalArgumentException::new);
-        if(!item.isBuyAble()||item.isnonremain(request.getQuantity()))//물건을 살수없는 경우면
+        if(!item.isBuyAble()||item.isNonRemain(request.getQuantity()))//물건을 살수없는 경우면
         {
             throw new RuntimeException("재고가 없습니다");
         }

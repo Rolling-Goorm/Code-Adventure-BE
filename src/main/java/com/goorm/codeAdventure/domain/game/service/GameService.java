@@ -1,5 +1,7 @@
 package com.goorm.codeAdventure.domain.game.service;
 
+import com.goorm.codeAdventure.domain.game.compiler.DynamicJavaCompiler;
+import com.goorm.codeAdventure.domain.game.compiler.JavaScriptExecutor;
 import com.goorm.codeAdventure.domain.game.dto.response.CategoryResponse;
 import com.goorm.codeAdventure.domain.game.dto.response.ProgrammingLanguageResponse;
 import com.goorm.codeAdventure.domain.game.dto.response.StageResponse;
@@ -68,5 +70,20 @@ public class GameService {
                 .stream()
                 .map(StageResponse::of)
                 .toList();
+    }
+
+    /**
+     * 자바, 자바스크립트 컴파일러
+     */
+    public void compile(String language, String sourceCode) throws Exception {
+        if (language.equals("java")) {
+            DynamicJavaCompiler dynamicJavaCompiler = new DynamicJavaCompiler();
+            String result = dynamicJavaCompiler.compileJava(sourceCode);
+            System.out.println(result);
+        } else if (language.equals("javascript")) {
+            JavaScriptExecutor javaScriptExecutor = new JavaScriptExecutor();
+            String result = javaScriptExecutor.executeJavaScript(sourceCode);
+            System.out.println(result);
+        }
     }
 }

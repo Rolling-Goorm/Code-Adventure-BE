@@ -29,6 +29,12 @@ public class Progress {
 
     private AttemptResult attemptResult;
 
+    public Progress(User user, Stage stage, AttemptResult attemptResult) {
+        setUser(user);
+        setStage(stage);
+        this.attemptResult = attemptResult;
+    }
+
     /**
      * 연관관계 설정 관련 메서드
      */

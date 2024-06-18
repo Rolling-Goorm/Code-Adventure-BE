@@ -24,15 +24,22 @@ public class GameService {
      * 프로그래밍 언어
      */
     public ProgrammingLanguageResponse findProgrammingLanguage(Long programmingLanguageId) {
-        return ProgrammingLanguageResponse.of(
-                ProgrammingLanguage.findById(programmingLanguageId)
-        );
+        ProgrammingLanguage programmingLanguage = ProgrammingLanguage.findById(programmingLanguageId);
+
+        return ProgrammingLanguageResponse.builder()
+                .id(programmingLanguage.getId())
+                .name(programmingLanguage.getName())
+                .build();
     }
 
     public List<ProgrammingLanguageResponse> findProgrammingLanguage() {
         return ProgrammingLanguage.findAll()
                 .stream()
-                .map(ProgrammingLanguageResponse::of)
+                .map(programmingLanguage -> ProgrammingLanguageResponse.builder()
+                        .id(programmingLanguage.getId())
+                        .name(programmingLanguage.getName())
+                        .build()
+                )
                 .toList();
     }
 
@@ -40,15 +47,22 @@ public class GameService {
      * 카테고리
      */
     public CategoryResponse findCategory(Long categoryId) {
-        return CategoryResponse.of(
-                Category.findById(categoryId)
-        );
+        Category category = Category.findById(categoryId);
+
+        return CategoryResponse.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .build();
     }
 
     public List<CategoryResponse> findCategory() {
         return Category.findAll()
                 .stream()
-                .map(CategoryResponse::of)
+                .map(category -> CategoryResponse.builder()
+                        .id(category.getId())
+                        .name(category.getName())
+                        .build()
+                )
                 .toList();
     }
 

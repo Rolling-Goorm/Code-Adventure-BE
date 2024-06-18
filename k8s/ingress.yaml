@@ -13,6 +13,8 @@ spec:
         paths:
           - path: /
             pathType: Prefix
-          - backend:
-              serviceName: krampoline
-              servicePort: 3000
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080

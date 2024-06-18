@@ -19,8 +19,7 @@ public class CompileResult {
     }
 
     public CompileResult() {
-        this.success = false;
-        this.compileResult = "실패했습니다";
+
     }
 
 }

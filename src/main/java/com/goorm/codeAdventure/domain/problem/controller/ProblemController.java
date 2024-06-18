@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,12 +21,9 @@ public class ProblemController {
     }
 
     @PostMapping("/problems/{problemId}")
-    public ResponseEntity<String> solveProblem(@PathVariable Long problemId, String language,@RequestBody String sourceCode, HttpServletRequest request) throws Exception {
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("loginUser");
-        problemService.solveCode(problemId, "java", sourceCode, user);
-
+    public ResponseEntity<String> solveProblem(@PathVariable Long problemId, @RequestBody String sourceCode,
+                                               @SessionAttribute(name = "loginUser", required = false) User user) throws Exception {
+        problemService.solveCode(problemId, sourceCode, user);
 
         return ResponseEntity.ok("");
     }

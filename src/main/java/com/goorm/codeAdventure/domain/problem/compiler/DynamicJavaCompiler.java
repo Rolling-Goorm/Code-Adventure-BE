@@ -70,7 +70,7 @@ public class DynamicJavaCompiler implements Compiler {
                 String capturedOutput = outputStream.toString().trim();
                 LocalDateTime endTime = LocalDateTime.now();
 
-                return new CompileResult(success,capturedOutput, Duration.between(startTime, endTime).toMillis()); // 출력된 값을 문자열로 반환하여 사용
+                return new CompileResult(success, capturedOutput, Duration.between(startTime, endTime).toMillis()); // 출력된 값을 문자열로 반환하여 사용
             } else {
                 // 컴파일 실패 시 진단 메시지들을 문자열로 반환
                 List<Diagnostic<? extends JavaFileObject>> diagnosticList = diagnostics.getDiagnostics();

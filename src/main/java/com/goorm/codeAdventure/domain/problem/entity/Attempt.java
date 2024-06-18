@@ -9,10 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
 public class Attempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +25,9 @@ public class Attempt {
 
     private String submittedCode;
 
-    private LocalDateTime submitTime;
+    private long submitTime; // long 타입으로 변환
+
+
 
     private Integer remainingAttemptCount;
 
@@ -46,5 +50,13 @@ public class Attempt {
     public void setProblem(Problem problem) {
         this.problem = problem;
         problem.getAttempts().add(this);
+    }
+
+    public Attempt(AttemptResult result, String submittedCode, long submitTime, User user, Problem problem) {
+        this.result = result;
+        this.submittedCode = submittedCode;
+        this.submitTime = submitTime;
+        this.user = user;
+        this.problem = problem;
     }
 }

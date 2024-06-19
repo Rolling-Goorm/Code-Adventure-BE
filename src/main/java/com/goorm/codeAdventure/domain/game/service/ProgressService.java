@@ -43,16 +43,9 @@ public class ProgressService {
         List<Category> categories = Category.findAll(); // 모든 카테고리를 조회
         ProgrammingLanguage programmingLanguage = ProgrammingLanguage.findById(languageId);
 
-        List<Double> list = categories.stream()
+        return categories.stream()
                 .map(category -> calculateProgress(userId, programmingLanguage, category))
                 .toList();
-        list.forEach(System.out::println);
-
-        return list;
-
-//        return categories.stream()
-//                .map(category -> calculateProgress(userId, programmingLanguage, category))
-//                .toList(); // 스트림의 결과를 리스트로 수집
     }
 
     /**

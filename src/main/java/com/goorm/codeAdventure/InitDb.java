@@ -3,8 +3,10 @@ package com.goorm.codeAdventure;
 
 import com.goorm.codeAdventure.domain.game.entity.Category;
 import com.goorm.codeAdventure.domain.game.entity.ProgrammingLanguage;
+import com.goorm.codeAdventure.domain.game.entity.Progress;
 import com.goorm.codeAdventure.domain.game.entity.Stage;
 import com.goorm.codeAdventure.domain.item.entity.Item;
+import com.goorm.codeAdventure.domain.problem.entity.AttemptResult;
 import com.goorm.codeAdventure.domain.problem.entity.Problem;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import jakarta.annotation.PostConstruct;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -76,8 +79,14 @@ public class InitDb {
                     Category.IO,
                     "Easy"
             );
+            Stage stage3 = new Stage(
+                    ProgrammingLanguage.JAVA,
+                    Category.IO,
+                    "Easy"
+            );
             em.persist(stage1);
             em.persist(stage2);
+            em.persist(stage3);
 
             Problem problem1 = new Problem(
                     "Hello World",
@@ -93,13 +102,31 @@ public class InitDb {
                     "첫째 줄에 A+B를 출력한다.",
                     stage2
             );
+            Problem problem3 = new Problem(
+                    "A+B",
+                    "두 정수 A와 B를 입력받은 다음, A+B를 출력하는 프로그램을 작성하시오.",
+                    "첫째 줄에 A와 B가 주어진다. (0 < A, B < 10)",
+                    "첫째 줄에 A+B를 출력한다.",
+                    stage3
+            );
             em.persist(problem1);
             em.persist(problem2);
+            em.persist(problem3);
 
             Problem.IoExample ioExample1 = new Problem.IoExample(problem1, "", "Hello World!");
             Problem.IoExample ioExample2 = new Problem.IoExample(problem2, "1 2", "3");
+            Problem.IoExample ioExample3 = new Problem.IoExample(problem2, "1 2", "3");
             em.persist(ioExample1);
             em.persist(ioExample2);
+            em.persist(ioExample3);
+
+            List<User> users = em.createQuery("select u from User u", User.class)
+                    .getResultList();
+
+            Progress progress1 = new Progress(users.get(0), stage1, AttemptResult.SUCCESS);
+            Progress progress2 = new Progress(users.get(0), stage2, AttemptResult.SUCCESS);
+            em.persist(progress1);
+            em.persist(progress2);
 
             em.flush();
         }

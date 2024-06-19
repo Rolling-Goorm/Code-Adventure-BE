@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface GameRepository extends JpaRepository<Stage, Long> {
     List<Stage> findByProgrammingLanguageAndCategory(ProgrammingLanguage programmingLanguage, Category category);
+
+    Integer countByProgrammingLanguageAndCategory(ProgrammingLanguage programmingLanguage, Category category);
 }

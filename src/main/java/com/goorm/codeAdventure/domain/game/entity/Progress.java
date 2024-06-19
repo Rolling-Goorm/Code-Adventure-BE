@@ -10,9 +10,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "progresses")
 public class Progress {
     @Id
@@ -28,6 +30,12 @@ public class Progress {
     private Stage stage;
 
     private AttemptResult attemptResult;
+
+    public Progress(User user, Stage stage, AttemptResult attemptResult) {
+        setUser(user);
+        setStage(stage);
+        this.attemptResult = attemptResult;
+    }
 
     /**
      * 연관관계 설정 관련 메서드

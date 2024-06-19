@@ -1,25 +1,22 @@
-package com.goorm.codeAdventure.domain.game.compiler;
+package com.goorm.codeAdventure.domain.problem.compiler;
 
 import javax.tools.*;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DynamicJavaCompiler {
+public class DynamicJavaCompiler implements Compiler {
 
-    public String compileJava(String sourceCode) throws Exception {
+    @Override
+    public CompileResult compile(String sourceCode, String inputData) {
         // 임의의 클래스 이름 생성
         String className = "Main";
-
-        // 소스 코드에 클래스 이름 추가
-        String fullSourceCode = "public class " + className + " {\n" + sourceCode + "\n}";
 
         // 진단 메시지를 수집할 DiagnosticCollector 생성
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
@@ -33,7 +30,7 @@ public class DynamicJavaCompiler {
             }
 
             // 2. 메모리 내 JavaFileObject 생성
-            JavaFileObject file = new JavaSourceFromString(className, fullSourceCode);
+            JavaFileObject file = new JavaSourceFromString(className, sourceCode);
 
             // 3. CompilationTask 생성 컴파일할 파일 목록 설정
             StandardJavaFileManager standardFileManager = compiler.getStandardFileManager(diagnostics, null, null);
@@ -43,6 +40,7 @@ public class DynamicJavaCompiler {
             JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);
 
             // 4. 소스 코드 컴파일
+            LocalDateTime startTime = LocalDateTime.now();
             boolean success = task.call(); // 컴파일러 시작
             if (success) {
                 // 5. 컴파일된 클래스를 로드
@@ -56,6 +54,9 @@ public class DynamicJavaCompiler {
                 PrintStream originalOut = System.out;
                 System.setOut(printStream);
 
+                // 입력 스트림 설정
+                System.setIn(new ByteArrayInputStream(inputData.getBytes()));
+
                 // 여기서 컴파일된 클래스를 활용할 수 있음 (예: 인스턴스 생성, 메서드 호출 등)
                 Object instance = compiledClass.getDeclaredConstructor().newInstance();
                 // 예시로 main 메서드 호출
@@ -67,7 +68,9 @@ public class DynamicJavaCompiler {
                 System.setOut(originalOut);
 
                 String capturedOutput = outputStream.toString().trim();
-                return capturedOutput; // 출력된 값을 문자열로 반환하여 사용
+                LocalDateTime endTime = LocalDateTime.now();
+
+                return new CompileResult(success, capturedOutput, Duration.between(startTime, endTime).toMillis()); // 출력된 값을 문자열로 반환하여 사용
             } else {
                 // 컴파일 실패 시 진단 메시지들을 문자열로 반환
                 List<Diagnostic<? extends JavaFileObject>> diagnosticList = diagnostics.getDiagnostics();
@@ -77,10 +80,10 @@ public class DynamicJavaCompiler {
                     errorMessage.append(diagnostic.getMessage(null)).append("\n");
                 }
 
-                return errorMessage.toString();
+                return new CompileResult(success,errorMessage.toString());
             }
         } catch (Exception e) {
-            return "Exception occurred during compilation: " + e.getMessage();
+            return new CompileResult(false, e.getMessage());
         }
     }
 }

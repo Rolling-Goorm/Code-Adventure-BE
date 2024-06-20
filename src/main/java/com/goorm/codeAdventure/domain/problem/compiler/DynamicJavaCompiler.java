@@ -89,64 +89,65 @@ public class DynamicJavaCompiler implements Compiler {
         }
     }
 
-// JavaSourceFromString 클래스 정의
-class JavaSourceFromString extends SimpleJavaFileObject {
-    final String code;
+    // JavaSourceFromString 클래스 정의
+    static class JavaSourceFromString extends SimpleJavaFileObject {
+        final String code;
 
-    JavaSourceFromString(String name, String code) {
-        super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
-        this.code = code;
+        JavaSourceFromString(String name, String code) {
+            super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
+            this.code = code;
+        }
+
+        @Override
+        public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+            return code;
+        }
     }
 
-    @Override
-    public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-        return code;
-    }
-}
+    // 메모리 내 JavaFileManager 클래스 정의
+    static class MemoryJavaFileManager extends ForwardingJavaFileManager<StandardJavaFileManager> {
+        private final Map<String, ByteArrayOutputStream> compiledClasses = new HashMap<>();
 
-// 메모리 내 JavaFileManager 클래스 정의
-class MemoryJavaFileManager extends ForwardingJavaFileManager<StandardJavaFileManager> {
-    private final Map<String, ByteArrayOutputStream> compiledClasses = new HashMap<>();
+        protected MemoryJavaFileManager(StandardJavaFileManager fileManager) {
+            super(fileManager);
+        }
 
-    protected MemoryJavaFileManager(StandardJavaFileManager fileManager) {
-        super(fileManager);
-    }
+        @Override
+        public JavaFileObject getJavaFileForOutput(Location location, String className, JavaFileObject.Kind kind, FileObject sibling) throws IOException {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            compiledClasses.put(className, baos);
+            return new SimpleJavaFileObject(URI.create("bytes:///" + className + kind.extension), kind) {
+                @Override
+                public OutputStream openOutputStream() throws IOException {
+                    return baos;
+                }
+            };
+        }
 
-    @Override
-    public JavaFileObject getJavaFileForOutput(Location location, String className, JavaFileObject.Kind kind, FileObject sibling) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        compiledClasses.put(className, baos);
-        return new SimpleJavaFileObject(URI.create("bytes:///" + className + kind.extension), kind) {
-            @Override
-            public OutputStream openOutputStream() throws IOException {
-                return baos;
+        public Map<String, byte[]> getCompiledClasses() {
+            Map<String, byte[]> byteCodeMap = new HashMap<>();
+            for (Map.Entry<String, ByteArrayOutputStream> entry : compiledClasses.entrySet()) {
+                byteCodeMap.put(entry.getKey(), entry.getValue().toByteArray());
             }
-        };
-    }
-
-    public Map<String, byte[]> getCompiledClasses() {
-        Map<String, byte[]> byteCodeMap = new HashMap<>();
-        for (Map.Entry<String, ByteArrayOutputStream> entry : compiledClasses.entrySet()) {
-            byteCodeMap.put(entry.getKey(), entry.getValue().toByteArray());
+            return byteCodeMap;
         }
-        return byteCodeMap;
-    }
-}
-
-// 메모리 내 ClassLoader 클래스 정의
-class MemoryClassLoader extends ClassLoader {
-    private final Map<String, byte[]> classes;
-
-    public MemoryClassLoader(Map<String, byte[]> classes) {
-        this.classes = classes;
     }
 
-    @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        byte[] classData = classes.get(name);
-        if (classData == null) {
-            throw new ClassNotFoundException(name);
+    // 메모리 내 ClassLoader 클래스 정의
+    static class MemoryClassLoader extends ClassLoader {
+        private final Map<String, byte[]> classes;
+
+        public MemoryClassLoader(Map<String, byte[]> classes) {
+            this.classes = classes;
         }
-        return defineClass(name, classData, 0, classData.length);
+
+        @Override
+        protected Class<?> findClass(String name) throws ClassNotFoundException {
+            byte[] classData = classes.get(name);
+            if (classData == null) {
+                throw new ClassNotFoundException(name);
+            }
+            return defineClass(name, classData, 0, classData.length);
+        }
     }
 }

@@ -11,12 +11,10 @@ import com.goorm.codeAdventure.domain.problem.entity.Problem;
 import com.goorm.codeAdventure.domain.problem.repository.AttemptRepository;
 import com.goorm.codeAdventure.domain.problem.repository.ProblemRepository;
 import com.goorm.codeAdventure.domain.user.entity.User;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

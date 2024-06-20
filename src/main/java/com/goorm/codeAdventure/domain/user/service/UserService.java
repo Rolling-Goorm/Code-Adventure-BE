@@ -47,13 +47,13 @@ public class UserService {
     }
 
     public void join(User user) {
-        validateDuplicateUser(user);
+        validateDuplicateUser(user.getNickname());
         userRepository.save(user);
     }
 
     // 같은 별명의 회원 검증 --> RuntimeException 으로 바꿔야함
-    private void validateDuplicateUser(User user) {
-        List<User> findUsers = userRepository.findByNickName(user.getNickname());
+    private void validateDuplicateUser(String nickName) {
+        List<User> findUsers = userRepository.findByNickName(nickName);
 
         if (!findUsers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 이름입니다.");
@@ -64,12 +64,10 @@ public class UserService {
      * 전체 회원 조회
      */
     public List<User> findUsers() {
-
         return userRepository.findAll();
     }
 
     public User findOne(Long userId) {
-
         return userRepository.findById(userId);
     }
 
@@ -82,6 +80,7 @@ public class UserService {
      * 회원 정보 업데이트
      */
     public void updateUser(Long userId, UserForm updateUserForm) {
+        validateDuplicateUser(updateUserForm.getNickname());
         User findUser = findOne(userId);
         findUser.updateUser(updateUserForm);
     }
@@ -99,8 +98,8 @@ public class UserService {
 
         User user = login(loginForm.getLoginId(), loginForm.getLoginPassword());
 
-        if (user != null) {
-            // 별명으로 회원가입 검증을 하기도해서 이름대신 닉네임으로 하는게 어떨까요?
+        if (user != null)
+        {
             String welcomeMessage = user.getNickname() + "님, code adventure에 오신 것을 환영합니다.";
 
             //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성

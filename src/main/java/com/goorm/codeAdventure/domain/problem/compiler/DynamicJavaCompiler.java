@@ -1,5 +1,7 @@
 package com.goorm.codeAdventure.domain.problem.compiler;
 
+import com.goorm.codeAdventure.domain.problem.dto.response.CompileResponse;
+
 import javax.tools.*;
 import java.io.*;
 import java.lang.reflect.Method;
@@ -14,7 +16,7 @@ import java.util.Map;
 public class DynamicJavaCompiler implements Compiler {
 
     @Override
-    public CompileResult compile(String sourceCode, String inputData) {
+    public CompileResponse compile(String sourceCode, String inputData) {
         // 임의의 클래스 이름 생성
         String className = "Main";
 
@@ -70,7 +72,7 @@ public class DynamicJavaCompiler implements Compiler {
                 String capturedOutput = outputStream.toString().trim();
                 LocalDateTime endTime = LocalDateTime.now();
 
-                return new CompileResult(success, capturedOutput, Duration.between(startTime, endTime).toMillis()); // 출력된 값을 문자열로 반환하여 사용
+                return new CompileResponse(success, capturedOutput, Duration.between(startTime, endTime).toMillis()); // 출력된 값을 문자열로 반환하여 사용
             } else {
                 // 컴파일 실패 시 진단 메시지들을 문자열로 반환
                 List<Diagnostic<? extends JavaFileObject>> diagnosticList = diagnostics.getDiagnostics();
@@ -80,13 +82,12 @@ public class DynamicJavaCompiler implements Compiler {
                     errorMessage.append(diagnostic.getMessage(null)).append("\n");
                 }
 
-                return new CompileResult(success,errorMessage.toString());
+                return new CompileResponse(success, errorMessage.toString());
             }
         } catch (Exception e) {
-            return new CompileResult(false, e.getMessage());
+            return new CompileResponse(false, e.getMessage());
         }
     }
-}
 
 // JavaSourceFromString 클래스 정의
 class JavaSourceFromString extends SimpleJavaFileObject {

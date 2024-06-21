@@ -66,7 +66,7 @@ public class ProblemService {
                 if (rewardCoin <= 0) rewardCoin = 100;
                 user.setCoin(user.getCoin() + rewardCoin);
 
-                message = "최초 클리어! 남은 목숨에 따라 보상이 지급됩니다.";
+                message = "최초 클리어! 남은 시도 횟수에 따라 보상이 지급됩니다.";
             }
         }
         if (!compileResponse.isSuccess()) { // 오답 제출

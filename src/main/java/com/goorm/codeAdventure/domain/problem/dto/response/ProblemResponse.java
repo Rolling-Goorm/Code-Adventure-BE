@@ -24,7 +24,9 @@ public class ProblemResponse {
 
     private List<IoExampleResponse> ioExamples;
 
-    public static ProblemResponse of(Problem problem) {
+    private Integer remainingLife;
+
+    public static ProblemResponse of(Problem problem, Integer remainingLife) {
         ProblemResponse response = new ProblemResponse();
 
         response.id = problem.getId();
@@ -36,6 +38,7 @@ public class ProblemResponse {
                 .stream()
                 .map(IoExampleResponse::of)
                 .toList();
+        response.remainingLife = remainingLife;
 
         return response;
     }

@@ -6,6 +6,7 @@ import com.goorm.codeAdventure.domain.problem.dto.response.SolveResponse;
 import com.goorm.codeAdventure.domain.problem.service.ProblemService;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import com.goorm.codeAdventure.domain.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class ProblemController {
     private final UserService userService;
 
     @GetMapping("/problems/{problemId}")
+    @Operation(summary = "문제 상세 조회 API", description = "특정 문제의 상세 정보를 반환합니다.")
     public ResponseEntity<ProblemResponse> problemDetails(
             @PathVariable Long problemId
     ) {
@@ -29,6 +31,7 @@ public class ProblemController {
     }
 
     @PostMapping("/problems/{problemId}")
+    @Operation(summary = "문제 풀이 결과 API", description = "특정 문제에 대한 풀이 결과를 제출합니다.")
     public ResponseEntity<SolveResponse> solveProblem(
             @PathVariable Long problemId,
             @RequestBody SolveRequest request

@@ -2,6 +2,7 @@ package com.goorm.codeAdventure.domain.email.controller;
 
 import com.goorm.codeAdventure.domain.email.entity.EmailMessage;
 import com.goorm.codeAdventure.domain.email.service.EmailService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ public class EmailController {
     private final EmailService emailService;
 
     @PostMapping("/send-mail")
+    @Operation(summary = "이메일 전송 API", description = "메일 메시지를 특정 사용자 이메일 주소로 전송합니다.")
     public ResponseEntity<EmailMessage> sendMail() {
         EmailMessage emailMessage = EmailMessage.builder()
                 .to("cmwmss59@gmail.com")

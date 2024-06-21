@@ -7,13 +7,14 @@ WORKDIR /home/gradle/project
 # Spring 소스 코드를 이미지에 복사
 COPY . .
 
-
-RUN chmod +x ./gradlew
-RUN ./gradlew clean build
-
 # gradle 빌드 시 proxy 설정을 gradle.properties에 추가
 RUN echo "systemProp.http.proxyHost=krmp-proxy.9rum.cc\nsystemProp.http.proxyPort=3128\nsystemProp.https.proxyHost=krmp-proxy.9rum.cc\nsystemProp.https.proxyPort=3128" > /root/.gradle/gradle.properties
 
+ENV DATABASE_URL=jdbc:mysql://172.31.2.79:3306/codeAdventure_db
+
+# gradlew를 이용한 프로젝트 필드
+RUN ./gradlew clean build
+
 
 # 빌드 결과 jar 파일을 실행
-CMD ["java", "-jar", "/home/gradle/wrapper/gradle-wrapper.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=prod", "/home/gradle/project/build/libs/kakao-1.0.jar"]

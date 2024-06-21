@@ -89,29 +89,28 @@ public class UserService {
      * 회원 로그인
      *
      * @param loginForm
-     * @param response
      * @return 로그인 성공 | 실패
      */
-    public ResponseEntity<String> login(LoginForm loginForm, HttpServletRequest request, HttpServletResponse response) {
-        ResponseEntity<String> alreadyLoggedInUser = checkIsAlreadyLoggedIn(request);
-        if (alreadyLoggedInUser != null) return alreadyLoggedInUser;
-
+    public ResponseEntity<UserResponse> login(LoginForm loginForm, HttpServletRequest request) {
         User user = login(loginForm.getLoginId(), loginForm.getLoginPassword());
 
-        if (user != null)
-        {
-            String welcomeMessage = user.getNickname() + "님, code adventure에 오신 것을 환영합니다.";
 
-            //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
-            HttpSession session = request.getSession();
+        if (user == null) {
+            throw new IllegalStateException("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.");
+        }
 
-            //세션에 로그인 회원 정보 보관
-            session.setAttribute(SessionConst.LOGIN_USER, user);
-            log.info("New Session ID: " + session.getId() + " for user: " + user.getLoginId());
+        UserResponse userResponse = new UserResponse(user);
+        // 별명으로 회원가입 검증을 하기도해서 이름대신 닉네임으로 하는게 어떨까요?
+        String welcomeMessage = user.getNickname() + "님, code adventure에 오신 것을 환영합니다.";
 
-            return ResponseEntity.ok(welcomeMessage);
-        } else // 로그인 실패 시 UNAUTHORIZED(401) 상태 코드 반환 --> 상태가 500으로 출력됩니당...
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 아이디 또는 비밀번호를 확인해주세요.");
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession();
+
+        //세션에 로그인 회원 정보 보관
+        session.setAttribute(SessionConst.LOGIN_USER, userResponse);
+        log.info("New Session ID: " + session.getId() + " for user: " + user.getLoginId());
+
+        return ResponseEntity.ok(userResponse);
     }
 
     private ResponseEntity<String> checkIsAlreadyLoggedIn(HttpServletRequest request) {

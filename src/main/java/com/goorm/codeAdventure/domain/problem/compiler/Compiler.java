@@ -1,5 +1,7 @@
 package com.goorm.codeAdventure.domain.problem.compiler;
 
+import com.goorm.codeAdventure.domain.problem.dto.response.CompileResponse;
+
 public interface Compiler {
-    public CompileResult compile(String sourceCode, String inputData);
+    public CompileResponse compile(String sourceCode, String inputData);
 }

@@ -3,6 +3,9 @@ package com.goorm.codeAdventure.domain.game.entity;
 import com.goorm.codeAdventure.domain.problem.entity.AttemptResult;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,14 +24,15 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stage_id")
     private Stage stage;
 
+    @Enumerated(EnumType.STRING)
     private AttemptResult attemptResult;
 
     public Progress(User user, Stage stage, AttemptResult attemptResult) {

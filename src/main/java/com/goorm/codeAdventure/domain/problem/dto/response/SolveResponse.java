@@ -17,4 +17,6 @@ public class SolveResponse {
     private String syntaxError;
 
     private Integer rewardCoin;
+
+    private String message;
 }

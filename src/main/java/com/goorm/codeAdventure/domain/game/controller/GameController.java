@@ -5,6 +5,7 @@ import com.goorm.codeAdventure.domain.game.dto.response.ProgrammingLanguageRespo
 import com.goorm.codeAdventure.domain.game.dto.response.StageResponse;
 import com.goorm.codeAdventure.domain.game.service.GameService;
 import com.goorm.codeAdventure.domain.game.service.ProgressService;
+import com.goorm.codeAdventure.domain.user.dto.response.UserResponse;
 import com.goorm.codeAdventure.domain.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,17 +31,17 @@ public class GameController {
     public ResponseEntity<List<ProgrammingLanguageResponse>> programmingLanguageList(
             HttpServletRequest request
     ) {
-        HttpSession session = request.getSession(false);
-        if (Objects.isNull(session) || Objects.isNull(session.getAttribute("loginUser"))) {
-            throw new IllegalStateException("로그인이 필요한 서비스입니다.");
-        }
-        User user = (User) session.getAttribute("loginUser");
+//        HttpSession session = request.getSession(false);
+//        if (Objects.isNull(session) || Objects.isNull(session.getAttribute("loginUser"))) {
+//            throw new IllegalStateException("로그인이 필요한 서비스입니다.");
+//        }
+//        UserResponse user = (UserResponse) session.getAttribute("loginUser");
 
         List<ProgrammingLanguageResponse> programmingLanguageResponses = gameService.findProgrammingLanguage();
         List<ProgrammingLanguageResponse> result = programmingLanguageResponses.stream()
                 .map(programmingLanguageResponse ->
                         programmingLanguageResponse.toBuilder()
-                                .progress(progressService.findProgressByLanguage(user.getId(), programmingLanguageResponse.getId()))
+                                .progress(progressService.findProgressByLanguage(1L, programmingLanguageResponse.getId()))
                                 .build()
                 ).toList();
 
@@ -62,14 +63,14 @@ public class GameController {
             @PathVariable Long programmingLanguageId,
             HttpServletRequest request
     ) {
-        HttpSession session = request.getSession(false);
-        if (Objects.isNull(session) || Objects.isNull(session.getAttribute("loginUser"))) {
-            throw new IllegalStateException("로그인이 필요한 서비스입니다.");
-        }
-        User user = (User) session.getAttribute("loginUser");
+//        HttpSession session = request.getSession(false);
+//        if (Objects.isNull(session) || Objects.isNull(session.getAttribute("loginUser"))) {
+//            throw new IllegalStateException("로그인이 필요한 서비스입니다.");
+//        }
+//        UserResponse user = (UserResponse) session.getAttribute("loginUser");
 
         List<CategoryResponse> categoryResponses = gameService.findCategory();
-        List<Double> progresses = progressService.findProgressByCategory(user.getId(), programmingLanguageId);
+        List<Double> progresses = progressService.findProgressByCategory(1L, programmingLanguageId);
 
         List<CategoryResponse> result = IntStream.range(0, categoryResponses.size())
                 .mapToObj(index -> categoryResponses.get(index).toBuilder()

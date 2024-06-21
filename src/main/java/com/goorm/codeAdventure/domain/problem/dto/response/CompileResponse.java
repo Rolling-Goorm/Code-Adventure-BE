@@ -8,10 +8,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CompileResponse {
     @Setter
-    protected boolean success;
-    protected String compileResult;
+    private boolean success;
 
-    protected long submitTime;
+    private String compileResult;
+
+    private long submitTime;
 
     public CompileResponse(boolean success, String compileResult) {
         this.success = success;

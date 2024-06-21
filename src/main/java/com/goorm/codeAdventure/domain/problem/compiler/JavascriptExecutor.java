@@ -1,5 +1,6 @@
 package com.goorm.codeAdventure.domain.problem.compiler;
 
+import com.goorm.codeAdventure.domain.problem.dto.response.CompileResponse;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
 import org.graalvm.polyglot.Value;
@@ -7,10 +8,10 @@ import org.graalvm.polyglot.Value;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class JavaScriptExecutor implements Compiler {
+public class JavascriptExecutor implements Compiler {
 
     @Override
-    public CompileResult compile(String sourceCode, String inputData) {
+    public CompileResponse compile(String sourceCode, String inputData) {
         try (Context context = Context.newBuilder("js")
                 .allowHostAccess(HostAccess.ALL)
                 .build()) {
@@ -33,10 +34,10 @@ public class JavaScriptExecutor implements Compiler {
             // 결과를 문자열로 반환
             LocalDateTime endTime = LocalDateTime.now();
 
-            return new CompileResult(true, result.toString(), Duration.between(startTime, endTime).toMillis());
+            return new CompileResponse(true, result.toString(), Duration.between(startTime, endTime).toMillis());
         } catch (Exception e) {
             // 예외 발생 시 오류 메시지를 반환
-            return new CompileResult(false, e.getMessage());
+            return new CompileResponse(false, e.getMessage());
         }
     }
 }

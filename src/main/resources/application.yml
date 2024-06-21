@@ -11,3 +11,20 @@ spring:
           timeout: 5000 # Socket Read Timeout 시간(ms) (기본값 : 무한대)
           starttls:
             enable: true # StartTLS 활성화 여부 (기본값 : false)
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/codeAdventure_db
+    username: project_user
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+
+  sql:
+      init:
+        data-locations: classpath*:db/data.sql
+        mode: always
+        platform: mysql
+

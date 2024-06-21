@@ -52,7 +52,7 @@ public class ProgressService {
      * 주어진 카테고리와 프로그래밍 언어에 대해 사용자의 진행률을 계산합니다.
      */
     private Double calculateProgress(Long userId, ProgrammingLanguage programmingLanguage, Category category) {
-        Integer successfulStagesCount = progressRepository.countSuccessfulStagesByCategory(
+        Integer successfulStagesCount = progressRepository.countStagesByCategory(
                 userId, programmingLanguage, category, AttemptResult.SUCCESS
         );
         Integer allStagesCount = gameRepository.countByProgrammingLanguageAndCategory(programmingLanguage, category);
